@@ -1,0 +1,9 @@
+.images {
+  display: flex;
+  display: -webkit-flex;
+  flex-wrap: wrap;
+
+  .image-icon--bottom {
+    color: #ccc;
+  }
+}

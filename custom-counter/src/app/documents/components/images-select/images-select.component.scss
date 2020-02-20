@@ -1,0 +1,17 @@
+.images {
+  display: flex;
+  display: -webkit-flex;
+  flex-wrap: wrap;
+
+  .image-icon {
+    font-size: 15px;
+  }
+
+  .image-icon--close {
+    color: #f44336;
+  }
+
+  .image-icon--bottom {
+    color: #ccc;
+  }
+}

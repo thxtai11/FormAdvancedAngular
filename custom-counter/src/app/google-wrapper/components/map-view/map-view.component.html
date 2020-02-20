@@ -1,0 +1,8 @@
+<agm-map style="width: 100%; height: 450px;" [latitude]="agmLat" [longitude]="agmLng" [zoom]="agmMapZoom"
+    (mapClick)="mapClicked($event)">
+
+    <agm-marker *ngIf="agmMarker.lat !== 0" [latitude]="agmMarker.lat" [longitude]="agmMarker.lng"
+        [label]="agmMarker.label" [markerDraggable]="agmMarker.draggable" (dragEnd)="markerDragEnd(agmMarker, $event)">
+    </agm-marker>
+
+</agm-map>

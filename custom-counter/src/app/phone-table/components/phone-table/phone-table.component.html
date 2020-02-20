@@ -1,0 +1,40 @@
+<div class="mat-table__wrapper mat-table__wrapper--sub">
+
+    <mat-table [dataSource]="data">
+
+        <ng-container matColumnDef="PhoneNumber">
+
+            <mat-header-cell *matHeaderCellDef>{{ 'TABLE.COLUMNS.PHONE' }}</mat-header-cell>
+            <mat-cell *matCellDef="let phone"> {{ phone.Value }} </mat-cell>
+
+        </ng-container>
+
+        <ng-container matColumnDef="Type">
+
+            <mat-header-cell *matHeaderCellDef>{{ 'TABLE.COLUMNS.TYPE' }}</mat-header-cell>
+
+            <mat-cell *matCellDef="let phone">
+
+                <ng-container *ngFor="let item of phoneTypeArray | keyvalue">
+
+                    <span *ngIf="phone.Type === item.value">{{ item.key }}</span>
+
+                </ng-container>
+
+            </mat-cell>
+
+        </ng-container>
+
+        <ng-container matColumnDef="Description">
+
+            <mat-header-cell *matHeaderCellDef>{{ 'TABLE.COLUMNS.DESCRIPTION' }}</mat-header-cell>
+            <mat-cell *matCellDef="let phone"> {{ phone.Description[lang] }} </mat-cell>
+
+        </ng-container>
+
+        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+
+    </mat-table>
+
+</div>

@@ -1,0 +1,270 @@
+<div class="mat-table__wrapper mat-table__wrapper--sub">
+
+    <mat-table [dataSource]="phones">
+
+        <ng-container matColumnDef="PhoneNumber">
+
+            <mat-header-cell *matHeaderCellDef>{{ 'TABLE.COLUMNS.PHONE' }}</mat-header-cell>
+            <mat-cell *matCellDef="let phone"> {{ phone.PhoneNumber }} </mat-cell>
+
+        </ng-container>
+
+        <ng-container matColumnDef="Type">
+
+            <mat-header-cell *matHeaderCellDef>{{ 'TABLE.COLUMNS.TYPE' }}</mat-header-cell>
+
+            <mat-cell *matCellDef="let phone">
+
+                <ng-container *ngFor="let type of phoneTypeArray">
+
+                    <span *ngIf="phone.Type === type.id">{{ type.name }}</span>
+
+                </ng-container>
+
+            </mat-cell>
+
+        </ng-container>
+
+        <ng-container matColumnDef="Description">
+
+            <mat-header-cell *matHeaderCellDef>{{ 'TABLE.COLUMNS.DESCRIPTION' }}</mat-header-cell>
+            <mat-cell *matCellDef="let phone"> {{ phone.Description }} </mat-cell>
+
+        </ng-container>
+
+        <ng-container matColumnDef="Actions">
+
+            <mat-header-cell *matHeaderCellDef></mat-header-cell>
+            <mat-cell *matCellDef="let phone, let i = index">
+
+
+                <button type="button" mat-icon-button color="primary" [mdePopoverTriggerFor]="updateFormPopover"
+                    mdePopoverTriggerOn="click" (opened)="update(phone,i)" (closed)="close()">
+                    <i class="fa fa-edit"></i>
+                </button>
+
+                <button type="button" mat-icon-button color="warn" (click)="delete(i)">
+                    <i class="fa fa-trash"></i>
+                </button>
+
+            </mat-cell>
+
+        </ng-container>
+
+        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+
+    </mat-table>
+
+
+    <div class="mat-table__message">
+
+        <button type="button" class="btn btn-primary btn-sm text-uppercase" (closed)="closed"
+            [mdePopoverTriggerFor]="createFormPopover" mdePopoverTriggerOn="click" (closed)="close()">
+            <span>
+                <i class="fa fa-plus"></i>
+            </span>
+        </button>
+        <mat-error style="color: darkred;font-weight:bold;" *ngIf="form.value.Index>5" required>
+            Error
+        </mat-error>
+    </div>
+
+</div>
+
+<mde-popover #createFormPopover="mdePopover" [mdePopoverOverlapTrigger]="false" [mdePopoverCloseOnClick]="false">
+
+    <mat-card>
+
+        <mat-card-content>
+
+            <form [formGroup]="form">
+
+                <div class="form-group kt-form__group row">
+
+                    <div class="col-xl-12 col-lg-12">
+
+                        <mat-form-field class="mat-form-field-fluid">
+
+                            <mat-label>
+                                <span translate="FORM.FIELDS.PHONE.PHONE_NUMBER"></span>
+                            </mat-label>
+
+                            <input matInput formControlName="PhoneNumber">
+
+                            <!-- <mat-error *ngIf="PhoneNumber.invalid && (PhoneNumber.dirty || PhoneNumber.touched)">
+                                <error-parser [errors]="PhoneNumber.errors"></error-parser>
+                            </mat-error> -->
+
+                        </mat-form-field>
+
+                    </div>
+
+                </div>
+
+                <div class="form-group kt-form__group row">
+
+                    <div class="col-xl-12 col-lg-12">
+
+                        <mat-form-field class="mat-form-field-fluid">
+
+                            <mat-label>
+                                <span translate="FORM.FIELDS.PHONE.PHONE_TYPE"></span>
+                            </mat-label>
+
+                            <mat-select formControlName="Type">
+
+                                <mat-option *ngFor="let type of phoneTypeArray" [value]="type.id">
+                                    {{ type.name }}
+                                </mat-option>
+
+                            </mat-select>
+                            <!-- 
+                             <mat-error *ngIf="Type.invalid && (Type.dirty || Type.touched)">
+                                <error-parser [errors]="Type.errors"></error-parser>
+                            </mat-error>  -->
+
+                        </mat-form-field>
+
+                    </div>
+
+                </div>
+
+                <div class="form-group kt-form__group row">
+
+                    <div class="col-xl-12 col-lg-12">
+
+                        <mat-form-field class="mat-form-field-fluid">
+
+                            <mat-label>
+                                <span translate="FORM.FIELDS.PHONE.DESCRIPTION"></span>
+                            </mat-label>
+
+                            <input matInput formControlName="Description">
+
+                        </mat-form-field>
+
+                    </div>
+
+                </div>
+
+            </form>
+         
+        </mat-card-content>
+
+        <mat-card-actions>
+
+            <div class="kt-buttons-wrapper">
+
+                <button type="button" class="btn btn-success text-uppercase" (click)="submit('insert')">
+                    <span>
+                        <i class="fa fa-save"></i>
+                    </span>
+                </button>
+
+            </div>
+
+        </mat-card-actions>
+
+    </mat-card>
+
+</mde-popover>
+
+
+<mde-popover #updateFormPopover="mdePopover" [mdePopoverOverlapTrigger]="false" [mdePopoverCloseOnClick]="false">
+
+    <mat-card>
+
+        <mat-card-content>
+
+            <form [formGroup]="form">
+
+                <div class="form-group kt-form__group row">
+
+                    <div class="col-xl-12 col-lg-12">
+
+                        <mat-form-field class="mat-form-field-fluid">
+
+                            <mat-label>
+                                <span translate="FORM.FIELDS.PHONE.PHONE_NUMBER"></span>
+                            </mat-label>
+
+                            <input matInput formControlName="PhoneNumber">
+
+                            <!-- <mat-error *ngIf="PhoneNumber.invalid && (PhoneNumber.dirty || PhoneNumber.touched)">
+                                <error-parser [errors]="PhoneNumber.errors"></error-parser>
+                            </mat-error> -->
+
+                        </mat-form-field>
+
+                    </div>
+
+                </div>
+
+                <div class="form-group kt-form__group row">
+
+                    <div class="col-xl-12 col-lg-12">
+
+                        <mat-form-field class="mat-form-field-fluid">
+
+                            <mat-label>
+                                <span translate="FORM.FIELDS.PHONE.PHONE_TYPE"></span>
+                            </mat-label>
+
+                            <mat-select formControlName="Type">
+
+                                <mat-option *ngFor="let type of phoneTypeArray" [value]="type.id">
+                                    {{ type.name }}
+                                </mat-option>
+
+                                <!-- <mat-error *ngIf="Type.invalid && (Type.dirty || Type.touched)">
+                                    <error-parser [errors]="Type.errors"></error-parser>
+                                </mat-error> -->
+
+                            </mat-select>
+
+                        </mat-form-field>
+
+                    </div>
+
+                </div>
+
+                <div class="form-group kt-form__group row">
+
+                    <div class="col-xl-12 col-lg-12">
+
+                        <mat-form-field class="mat-form-field-fluid">
+
+                            <mat-label>
+                                <span translate="FORM.FIELDS.PHONE.DESCRIPTION"></span>
+                            </mat-label>
+
+                            <input matInput formControlName="Description">
+
+                        </mat-form-field>
+
+                    </div>
+
+                </div>
+
+            </form>
+
+        </mat-card-content>
+
+        <mat-card-actions>
+
+            <div class="kt-buttons-wrapper">
+
+                <button type="button" class="btn btn-success text-uppercase" (click)="submit('update')">
+                    <span>
+                        <i class="fa fa-save"></i>
+                    </span>
+                </button>
+
+            </div>
+
+        </mat-card-actions>
+
+    </mat-card>
+
+</mde-popover>

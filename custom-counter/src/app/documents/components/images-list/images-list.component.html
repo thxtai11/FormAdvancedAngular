@@ -1,0 +1,13 @@
+<div class="images">
+
+    <rbp-image *ngFor="let item of data" [model]="item">
+
+        <ng-container imageBottom>
+
+            <i class="fa fa-search image-icon image-icon--bottom" (click)="zoom()"></i>
+
+        </ng-container>
+
+    </rbp-image>
+
+</div>

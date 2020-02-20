@@ -1,0 +1,31 @@
+<ng-content select="[imagesSelectLabel]"></ng-content>
+
+<div class="images">
+
+    <rbp-image *ngFor="let item of data$ | async; let i = index" [model]="item">
+
+        <ng-container imageTop>
+
+            <i class="fa fa-times image-icon image-icon--close" (click)="remove(i)"></i>
+
+        </ng-container>
+
+        <ng-container imageBottom>
+
+            <i class="fa fa-search image-icon image-icon--bottom" (click)="zoom()"></i>
+
+        </ng-container>
+
+    </rbp-image>
+
+    <rbp-image *ngIf="showUpload && ((totalItems < limitted) || limitted === -1)" (click)="upload()">
+
+        <ng-container imageMiddle>
+
+            <i class="fa fa-camera image-icon"></i>
+
+        </ng-container>
+
+    </rbp-image>
+
+</div>

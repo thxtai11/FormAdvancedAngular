@@ -1,0 +1,28 @@
+<div class="image-container" [ngClass]="{'image-container--contained': model}">
+
+    <ng-container *ngIf="model">
+
+        <img src="{{ model.Url }}" class="image img-fluid" onerror="this.src='./assets/media/bg/dkid_logo.png'"
+            (load)="onLoad()" />
+
+    </ng-container>
+
+    <div class="middle">
+
+        <ng-content select="[imageMiddle]"></ng-content>
+
+    </div>
+
+    <div class="top">
+
+        <ng-content select="[imageTop]"></ng-content>
+
+    </div>
+
+    <div class="bottom">
+
+        <ng-content select="[imageBottom]"></ng-content>
+
+    </div>
+
+</div>
