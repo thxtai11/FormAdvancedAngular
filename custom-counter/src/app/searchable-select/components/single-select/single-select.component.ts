@@ -14,7 +14,7 @@ import {
     Injector,
 } from '@angular/core';
 
-import { ControlValueAccessor, NG_VALUE_ACCESSOR, FormGroupDirective, NgForm, NgControl, Validators } from '@angular/forms';
+import { ControlValueAccessor, NG_VALUE_ACCESSOR, FormGroupDirective, NgForm, NgControl, Validators, FormGroup, FormBuilder } from '@angular/forms';
 
 import { FormControl } from '@angular/forms';
 
@@ -38,14 +38,34 @@ class MatSelectErrorStateMatcher implements ErrorStateMatcher {
         return false;
     }
 }
-interface BANK{
+interface BANK {
     name: string;
     id: string;
 }
+export const BANKSS: BANK[] = [
+    { name: 'Bank A (Switzerland)', id: 'A' },
+    { name: 'Bank B (Switzerland)', id: 'B' },
+    { name: 'Bank C (France)', id: 'C' },
+    { name: 'Bank D (France)', id: 'D' },
+    { name: 'Bank E (France)', id: 'E' },
+    { name: 'Bank F (Italy)', id: 'F' },
+    { name: 'Bank G (Italy)', id: 'G' },
+    { name: 'Bank H (Italy)', id: 'H' },
+    { name: 'Bank I (Italy)', id: 'I' },
+    { name: 'Bank J (Italy)', id: 'J' },
+    { name: 'Bank Kolombia (United States of America)', id: 'K' },
+    { name: 'Bank L (Germany)', id: 'L' },
+    { name: 'Bank M (Germany)', id: 'M' },
+    { name: 'Bank N (Germany)', id: 'N' },
+    { name: 'Bank O (Germany)', id: 'O' },
+    { name: 'Bank P (Germany)', id: 'P' },
+    { name: 'Bank Q (Germany)', id: 'Q' },
+    { name: 'Bank R (Germany)', id: 'R' }
+];
 @Component({
     selector: 'single-select',
     templateUrl: './single-select.component.html',
-    changeDetection: ChangeDetectionStrategy.OnPush,
+   // changeDetection: ChangeDetectionStrategy.OnPush,
     providers: [
         {
             provide: NG_VALUE_ACCESSOR,
@@ -64,28 +84,18 @@ export class SingleSelectComponent implements OnInit, OnDestroy, AfterViewInit, 
 
     @Input() set touched(value: boolean) {
         if (value)
-            this.selectCtrl.markAsTouched();
+            this.bankForm.markAsTouched();
         else
-            this.selectCtrl.markAsUntouched();
+            this.bankForm.markAsUntouched();
     }
 
     @ViewChild('singleSelect', { static: true }) singleSelect: MatSelect;
     @ViewChild('search', { static: true }) search: MatSelectSearchComponent;
 
-    
 
-    protected _data: BANK[] =
-    [
-        { name: 'Bank A', id: 'A' },
-        { name: 'Bank B', id: 'B' },
-        { name: 'Bank C', id: 'C' },
-        { name: 'Bank D', id: 'D' },
-        { name: 'Bank E', id: 'E' },
-        { name: 'Bank F', id: 'F' },
-        { name: 'Bank G', id: 'G' },
-        { name: 'Bank H', id: 'H' },
-    
-    ];
+    public _data: BANK[] = BANKSS;
+
+
 
     private _onChangeCallback: (_: BANK) => void = () => { };
 
@@ -93,34 +103,40 @@ export class SingleSelectComponent implements OnInit, OnDestroy, AfterViewInit, 
 
     matcher: MatSelectErrorStateMatcher;
 
-    selectCtrl: FormControl = new FormControl('', [Validators.required]);
+    // bankForm: FormControl = new FormControl('', [Validators.required]);
     filterCtrl: FormControl = new FormControl();
 
     filteredData: ReplaySubject<BANK[]> = new ReplaySubject<BANK[]>(1);
 
-    defaultValue: string;
+    defaultValue: any;
 
     ngControl: NgControl;
+
+    bankForm: FormGroup;
+
+
 
     constructor(
         private _injector: Injector,
         private _element: ElementRef,
-        private _renderer: Renderer) {
+        private _renderer: Renderer,
+        private fb: FormBuilder) {
+
     }
 
     ngOnInit(): void {
-       
+
         // set default value
-        this.selectCtrl.setValue(this._data[0]);
+        //  this.bankForm.setValue(this._data[0]);
 
         // load the initial bank list
-        this.filteredData.next(this._data.slice());
+        // this.filteredData.next(this._data.slice());
         this.data$.pipe(takeUntil(this._onDestroy))
             .subscribe(value => {
                 this._data = value;
 
                 this.filterData();
-                this.triggerSelectDefault();
+            //    this.triggerSelectDefault();
             });
 
         this.filterCtrl.valueChanges
@@ -128,31 +144,12 @@ export class SingleSelectComponent implements OnInit, OnDestroy, AfterViewInit, 
             .subscribe(() => {
                 this.filterData();
             });
-
-        this.selectCtrl.valueChanges
-            .pipe(takeUntil(this._onDestroy))
-            .subscribe(value => {
-                if (typeof (value) === 'object') {
-                    if (value && this.defaultValue !== value.id) {
-                        this.defaultValue = value.id;
-                        this._onChangeCallback(value.id);
-                        let event = new CustomEvent('change', { bubbles: true });
-                        this._renderer.invokeElementMethod(this._element.nativeElement, 'dispatchEvent', [event]);
-                    }
-                } else {
-                    if (value && this.defaultValue !== value) {
-                        this.defaultValue = value;
-                        this._onChangeCallback(value);
-                        let event = new CustomEvent('change', { bubbles: true });
-                        this._renderer.invokeElementMethod(this._element.nativeElement, 'dispatchEvent', [event]);
-                    }
-                }
-            });
-
         this.matcher = new MatSelectErrorStateMatcher(this.required);
 
         this.initFormControl();
     }
+
+
 
     ngOnDestroy(): void {
         this._onDestroy.next();
@@ -166,7 +163,7 @@ export class SingleSelectComponent implements OnInit, OnDestroy, AfterViewInit, 
     writeValue(obj: string): void {
         if (this.defaultValue !== obj) {
             this.defaultValue = obj;
-            this.triggerSelectDefault();
+      //      this.triggerSelectDefault();
         }
     }
 
@@ -186,11 +183,13 @@ export class SingleSelectComponent implements OnInit, OnDestroy, AfterViewInit, 
         this.filteredData
             .pipe(take(1), takeUntil(this._onDestroy))
             .subscribe(() => {
-                this.singleSelect.compareWith = (a: any, b: any) => {
+                this.singleSelect.compareWith = (a: BANK, b: BANK) => {
                     return a && b && a.id === b.id;
                 };
             });
     }
+
+
 
     private filterData(): void {
         if (!this._data) {
@@ -211,17 +210,6 @@ export class SingleSelectComponent implements OnInit, OnDestroy, AfterViewInit, 
         );
     }
 
-    private triggerSelectDefault(): void {
-        var selected = this._data.find(x => x.id === this.defaultValue);
-
-        if (selected) {
-            this.selectCtrl.setValue(selected);
-            this.setInitialValue();
-        }
-        else {
-            this.selectCtrl.setValue(this.defaultValue);
-        }
-    }
 
     private initFormControl(): void {
         try {
@@ -234,4 +222,8 @@ export class SingleSelectComponent implements OnInit, OnDestroy, AfterViewInit, 
             console.log("FormControl or ngModel required");
         }
     }
+
+    // onFormSubmit(): void {
+    //     console.log('ID:' + this.bankForm.get('id').value);
+    // }
 }

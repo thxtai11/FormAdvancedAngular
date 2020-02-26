@@ -51,8 +51,12 @@
 
         </ng-container>
 
-        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-        <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+        <mat-header-row *matHeaderRowDef="displayedColumns">
+
+        </mat-header-row>
+        <mat-row *matRowDef="let row; columns: displayedColumns;">
+
+        </mat-row>
 
     </mat-table>
 
@@ -65,11 +69,14 @@
                 <i class="fa fa-plus"></i>
             </span>
         </button>
-        <mat-error style="color: darkred;font-weight:bold;" *ngIf="form.value.Index>5" required>
-            Error
+
+    </div>
+    <div>
+        <mat-error *ngIf="ngControl && ngControl.invalid && (ngControl.dirty || ngControl.touched)"
+            style="color:darkred; font-weight: bold;" required>
+            <ng-content select="[mPhoneTableInputError]"></ng-content>
         </mat-error>
     </div>
-
 </div>
 
 <mde-popover #createFormPopover="mdePopover" [mdePopoverOverlapTrigger]="false" [mdePopoverCloseOnClick]="false">
@@ -92,9 +99,10 @@
 
                             <input matInput formControlName="PhoneNumber">
 
-                            <!-- <mat-error *ngIf="PhoneNumber.invalid && (PhoneNumber.dirty || PhoneNumber.touched)">
-                                <error-parser [errors]="PhoneNumber.errors"></error-parser>
-                            </mat-error> -->
+                            <mat-error *ngIf="PhoneNumber.invalid && (PhoneNumber.dirty || PhoneNumber.touched)"
+                                required>
+                                Phone Number is required with 10 max character.
+                            </mat-error>
 
                         </mat-form-field>
 
@@ -119,10 +127,10 @@
                                 </mat-option>
 
                             </mat-select>
-                            <!-- 
-                             <mat-error *ngIf="Type.invalid && (Type.dirty || Type.touched)">
-                                <error-parser [errors]="Type.errors"></error-parser>
-                            </mat-error>  -->
+
+                            <mat-error *ngIf="Type.invalid && (Type.dirty || Type.touched)" required>
+                                Type is required
+                            </mat-error>
 
                         </mat-form-field>
 
@@ -149,7 +157,7 @@
                 </div>
 
             </form>
-         
+
         </mat-card-content>
 
         <mat-card-actions>
@@ -191,9 +199,10 @@
 
                             <input matInput formControlName="PhoneNumber">
 
-                            <!-- <mat-error *ngIf="PhoneNumber.invalid && (PhoneNumber.dirty || PhoneNumber.touched)">
-                                <error-parser [errors]="PhoneNumber.errors"></error-parser>
-                            </mat-error> -->
+                            <mat-error *ngIf="PhoneNumber.invalid && (PhoneNumber.dirty || PhoneNumber.touched)"
+                                required>
+                                Phone Number is required with 10 max character.
+                            </mat-error>
 
                         </mat-form-field>
 
@@ -217,9 +226,9 @@
                                     {{ type.name }}
                                 </mat-option>
 
-                                <!-- <mat-error *ngIf="Type.invalid && (Type.dirty || Type.touched)">
-                                    <error-parser [errors]="Type.errors"></error-parser>
-                                </mat-error> -->
+                                <mat-error *ngIf="Type.invalid && (Type.dirty || Type.touched)" required>
+                                    Type is required
+                                </mat-error>
 
                             </mat-select>
 

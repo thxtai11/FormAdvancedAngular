@@ -8,7 +8,7 @@
 
         <!-- [formControl]="ngControl" -->
 
-        <mat-chip-list #chipList>
+        <mat-chip-list #chipList [formControl]="ngControl.control">
             <mat-chip *ngFor="let data of selectedData" [selectable]="selectable" [removable]="removable"
                 (removed)="remove(data)">
                 {{ data.text }}
@@ -17,7 +17,7 @@
 
             </mat-chip>
 
-            <input #tagsInput [formControl]="tagsCtrl" [matAutocomplete]="auto" [matChipInputFor]="chipList"
+            <input #tagsInput [matAutocomplete]="auto" [matChipInputFor]="chipList"
                 [matChipInputSeparatorKeyCodes]="separatorKeysCodes" [matChipInputAddOnBlur]="addOnBlur"
                 (matChipInputTokenEnd)="add($event)">
 

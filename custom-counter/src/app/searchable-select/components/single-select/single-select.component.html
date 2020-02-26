@@ -1,53 +1,49 @@
-<mat-form-field class="mat-form-field-fluid" >
+<mat-form-field class="mat-form-field-fluid">
 
-    <mat-label>
+     <mat-label>
 
-        <ng-content select="[mSingleSelectLabel]"></ng-content>
+            <ng-content select="[mSingleSelectLabel]"></ng-content>
 
-    </mat-label>
+        </mat-label>
 
-    <ng-content select="[mSingleSelectLabel]"></ng-content>
-  
-    <mat-select [formControl]="selectCtrl" #singleSelect>
-       
+        <ng-content select="[mSingleSelectLabel]"></ng-content> 
 
+        <mat-select [formControl]="ngControl.control" (change)="changeBank($event)"  #singleSelect>
+
+            
             <mat-option>
              
       
                 <ngx-mat-select-search [formControl]="filterCtrl" [placeholderLabel]="''"
                     [noEntriesFoundLabel]="'No data found'" #search></ngx-mat-select-search>
 
+            </mat-option> 
+
+
+            <mat-option *ngFor="let bankGroupCtrl of _data" [value]="bankGroupCtrl">
+
+                {{ bankGroupCtrl.name }}
+
             </mat-option>
 
+        </mat-select>
 
-            <mat-option *ngFor="let bank of filteredData | async" [value]="bank">
+        <mat-hint align="start">
+            <strong>
+                <ng-content select="[mSingleSelectActionLabel]"></ng-content>
+            </strong>
+            <ng-content select="[mSingleSelectActionHint]"></ng-content>
+        </mat-hint>
 
-                {{ bank.name }}
-
-            </mat-option>
-
-    </mat-select>
-    <mat-error role="alert" style="color: darkred;font-weight:bold;" *ngIf="selectCtrl.invalid && selectCtrl.touched">
-        Single Select is required
-    </mat-error>
-
-    <mat-hint align="start">
-        <strong>
-            <ng-content select="[mSingleSelectActionLabel]"></ng-content>
-        </strong>
-        <ng-content select="[mSingleSelectActionHint]"></ng-content>
-    </mat-hint>
-
-    <mat-error *ngIf="ngControl && ngControl.invalid && ngControl.touched">
-        <ng-content select="[mSingleSelectError]"></ng-content>
-    </mat-error>
-
+        <mat-error >
+            <ng-content select="[mSingleSelectError]"></ng-content>
+        </mat-error> 
+  
 </mat-form-field>
-
-<p>Invalid: {{ selectCtrl.invalid }}</p>
+<!-- <p>Invalid: {{ selectCtrl.invalid }}</p>
 <p>Touched: {{ selectCtrl.touched }}</p>
 <p>Dirty: {{ selectCtrl.dirty }}</p>
 
 <p>
     Selected Bank: {{selectCtrl.value?.name}}
-</p>
+</p> -->

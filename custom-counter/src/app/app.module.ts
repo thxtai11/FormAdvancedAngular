@@ -38,8 +38,10 @@ import { TranslateService, TranslateStore, TranslateLoader, TranslateModule } fr
   imports: [
     BrowserModule,
     AppRoutingModule,
+    
     FormsModule,
     ReactiveFormsModule,
+
     BrowserAnimationsModule,
     MdePopoverModule,
     MatFormFieldModule,

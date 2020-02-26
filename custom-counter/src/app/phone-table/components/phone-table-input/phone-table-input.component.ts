@@ -1,5 +1,5 @@
-import { Component, OnInit, forwardRef, Input, ViewChildren, QueryList } from '@angular/core';
-import { ControlValueAccessor, NG_VALUE_ACCESSOR, FormGroup, FormControl, Validators } from '@angular/forms';
+import { Component, OnInit, forwardRef, Input, ViewChildren, QueryList, Injector } from '@angular/core';
+import { ControlValueAccessor, NG_VALUE_ACCESSOR, FormGroup, FormControl, Validators, NgControl } from '@angular/forms';
 
 // import {
 //     PhoneModel,
@@ -41,7 +41,7 @@ export class PhoneTableInputComponent implements OnInit, ControlValueAccessor {
 
     curValue: PhoneModel[] = [];
     phones: any[] = [];
-
+    ngControl: FormControl;
     displayedColumns = ["PhoneNumber", "Type", "Description", "Actions"];
 
     phoneTypeArray = [
@@ -52,11 +52,13 @@ export class PhoneTableInputComponent implements OnInit, ControlValueAccessor {
 
     form: FormGroup;
 
-    constructor() {
+    constructor(public injector: Injector) {
         this.form = this.generateForm();
     }
 
-    ngOnInit(): void { }
+    ngOnInit(): void {
+        this.initFormControl();
+     }
 
     writeValue(obj: any): void {
         if (obj) {
@@ -104,7 +106,7 @@ export class PhoneTableInputComponent implements OnInit, ControlValueAccessor {
         if (method === 'insert') {
             if (this.form.value.Index > -1 && this.form.value.Index < 5) {
                 this.curValue.push(phone);
-                
+
             }
             else {
                 console.log('failed');
@@ -112,7 +114,7 @@ export class PhoneTableInputComponent implements OnInit, ControlValueAccessor {
 
             this.closePopover(0);
 
-         }
+        }
         // else {
         //     this.curValue[phone.Index] = phone;
 
@@ -184,7 +186,7 @@ export class PhoneTableInputComponent implements OnInit, ControlValueAccessor {
     private generateForm(): FormGroup {
         return new FormGroup({
             Index: new FormControl('0'),
-            PhoneNumber: new FormControl("", [<any>Validators.required]),
+            PhoneNumber: new FormControl("", [<any>Validators.required, Validators.maxLength(10)]),
             Type: new FormControl("", [<any>Validators.required]),
             Description: new FormControl(""),
 
@@ -195,7 +197,17 @@ export class PhoneTableInputComponent implements OnInit, ControlValueAccessor {
 
     }
 
+    private initFormControl(): void {
+        try {
+            const ngControl = this.injector.get(NgControl);
 
+            if (ngControl) {
+                this.ngControl = ngControl;
+            }
+        } catch (error) {
+            console.log("FormControl or ngModel required");
+        }
+    }
 
     //#region Form
 

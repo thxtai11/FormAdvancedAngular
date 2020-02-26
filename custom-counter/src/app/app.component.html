@@ -1,8 +1,93 @@
+<form [formGroup]="form">
 
-<multi-select></multi-select>
-<single-select></single-select>
-<tags></tags>
-<!-- <phone-table></phone-table> -->
-<phone-table-input></phone-table-input>
-<map-view></map-view>
-<location-select></location-select>
+    <div class="form-group row">
+
+        <div class="col-lg-6">
+
+            <multi-select formControlName="Type">
+
+                <ng-container mMultipleSelectError>
+                    Error
+                </ng-container>
+
+            </multi-select>
+        </div>
+
+    </div>
+
+    <div class="form-group row">
+
+        <div class="col-lg-6">
+            <single-select formControlName="Single">
+                <ng-container mSingleSelectError>
+                    Error
+                </ng-container>
+            </single-select>
+        </div>
+
+    </div>
+
+    <div class="form-group row">
+        <div class="col-lg-6">
+            <tags formControlName="Tag">
+                <ng-container mTagsError>
+                    Error
+                </ng-container>
+            </tags>
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <div class="col-lg-6">
+            <phone-table-input formControlName="PhoneList">
+                <ng-container mPhoneTableInputError>
+                    Nothing in List. Please add your information
+                </ng-container>
+
+            </phone-table-input>
+        </div>
+
+    </div>
+
+    <div>
+        <div class="col-lg-6">
+        <location-select formControlName="Location">
+            <ng-container mLocationSelectError>
+                Error
+            </ng-container>
+
+        </location-select>
+    </div>
+
+    </div>
+
+</form>
+
+
+
+<button type="button" class="btn btn-primary btn-sm" (click)="onClick()">Submit</button>
+
+<!-- <div>
+    <multi-select></multi-select>
+</div> -->
+<!-- <div>
+    <single-select></single-select>
+</div>
+<div>
+    <tags></tags>
+</div> -->
+<!-- <div>
+    <phone-table></phone-table>
+</div> -->
+<!-- <div>
+    <phone-table-input></phone-table-input>
+</div>
+<br><br><br><br><br><br><br><br><br><br>
+
+<div>
+    <location-select></location-select>
+</div> -->
+
+<!-- What is that ?
+What do it does ?
+How ? -->

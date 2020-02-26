@@ -1,5 +1,4 @@
 <mat-form-field class="mat-form-field-fluid">
-
     <mat-label>
 
         <ng-content select="[mMultipleSelectLabel]"></ng-content>
@@ -8,16 +7,15 @@
 
     <ng-content select="[mMultipleSelectLabel]"></ng-content>
 
-    <mat-select [formControl]="selectCtrl" multiple #multiSelect >
+    <mat-select [formControl]="ngControl.control" multiple #multiSelect>
 
         <mat-option>
 
-            <ngx-mat-select-search [formControl]="filterCtrl" 
-                #search></ngx-mat-select-search>
+            <ngx-mat-select-search [formControl]="filterCtrl" #search></ngx-mat-select-search>
 
         </mat-option>
 
-        <mat-option *ngFor="let entity of filteredData | async" [value]="entity">
+        <mat-option *ngFor="let entity of _data" [value]="entity">
 
             {{ entity.name }}
 
@@ -32,15 +30,8 @@
         <ng-content select="[mMultipleSelectActionHint]"></ng-content>
     </mat-hint>
 
-    <mat-error *ngIf="ngControl && ngControl.invalid">
+    <mat-error>
         <ng-content select="[mMultipleSelectError]"></ng-content>
     </mat-error>
-
-    <!-- <p>Invalid: {{ ngControl.invalid }}</p>
-    <p>Touched: {{ ngControl.touched }}</p>
-    <p>Dirty: {{ ngControl.dirty }}</p>
-    <p>Invalid: {{ selectCtrl.invalid }}</p>
-    <p>Touched: {{ selectCtrl.touched }}</p>
-    <p>Dirty: {{ selectCtrl.dirty }}</p> -->
-
+    
 </mat-form-field>

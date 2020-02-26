@@ -15,7 +15,7 @@ import { startWith, map } from 'rxjs/operators';
             multi: true,
         }
     ],
-    changeDetection: ChangeDetectionStrategy.OnPush
+ //   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class TagsComponent implements OnInit, ControlValueAccessor {
     @Input() autoComplete: boolean = false;

@@ -15,8 +15,8 @@
 
                 <input matInput formControlName="Address">
 
-                <mat-error *ngIf="addressCtrl.invalid && (addressCtrl.dirty || addressCtrl.touched)">
-                    <span translate="GOOGLE_MAP.ADDRESS_ERROR"></span>
+                <mat-error *ngIf="addressCtrl.invalid && (addressCtrl.dirty || addressCtrl.touched)" required>
+                   Please, search your address which want to go!!!
                 </mat-error>
 
                 <button type="button" mat-button matSuffix mat-icon-button color="primary" (click)="submit()">
@@ -32,6 +32,8 @@
 
     </div>
 
+
+    <br/>
     <div class="form-group kt-form__group row">
 
         <div class="col-xl-12 col-lg-12">
@@ -40,7 +42,7 @@
                 (locationChange)="onLocationChange($event)">
             </map-view>
 
-            <div *ngIf="ngControl && ngControl.invalid && (ngControl.dirty || ngControl.touched)">
+            <div *ngIf="ngControl && ngControl.invalid && (ngControl.dirty || ngControl.touched)" style="color:darkred; font-weight: bold;">
                 <ng-content select="[mLocationSelectError]"></ng-content>
             </div>
 
